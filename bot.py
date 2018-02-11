@@ -10,15 +10,15 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('!price'):
+    if message.content.startswith('/price'):
         msg = getPriceMSG()
         return await client.send_message(message.channel,msg)
 
-    if message.content.startswith('!help'):
-        helpmsg = "**!price** - shows the current price of DGB.\n**!deposit** or **!addr** - shows your deposit address.\n**!balance [0conf=false]** - shows your balance\n**!tip [user] [amount]** - tips another user coins.\n**!withdraw [amount] [address]** - withdraws funds to an external address.\n**!donate [amount]** - donation to digibyte community"
+    if message.content.startswith('/help'):
+        helpmsg = "**/price** - shows the current price of DGB.\n**/deposit** or **/addr** - shows your deposit address.\n**/balance [0conf=false]** - shows your balance\n**/tip [user] [amount]** - tips another user coins.\n**/withdraw [amount] [address]** - withdraws funds to an external address.\n**/donate [amount]** - donation to digibyte community"
         return await client.send_message(message.channel,helpmsg)
 
-    if message.content.startswith('!deposit') or message.content.startswith('!addr'):
+    if message.content.startswith('/deposit') or message.content.startswith('/addr'):
 
         account = message.author.id
         print(type(account))
@@ -27,13 +27,13 @@ async def on_message(message):
         msg = '{0.author.mention}, your address is %s.'.format(message)%address
         return await client.send_message(message.channel,msg)
 
-    if message.content.startswith('!balance 0conf'): #0conf balance
+    if message.content.startswith('/balance 0conf'): #0conf balance
         account = message.author.id
         balance = getBalance(account,0)
         msg = '{0.author.mention}, you have %f DGB, including 0-confirmations.'.format(message)%balance
         return await client.send_message(message.channel,msg)
 
-    if message.content.startswith('!balance'):
+    if message.content.startswith('/balance'):
         account = message.author.id
         print(account)
         balance = getBalance(account)
@@ -41,7 +41,7 @@ async def on_message(message):
         msg = '{0.author.mention}, you have %f DGB'.format(message)%(balance)
         return await client.send_message(message.channel,msg)
 
-    if message.content.startswith('!tip '):
+    if message.content.startswith('/tip '):
         tipper = message.author.id
         content = message.content.split()[1:]
         toTipMention = content[0]
@@ -63,7 +63,7 @@ async def on_message(message):
         except ValueError:
             return await client.send_message(message.channel,"{0.author.mention}, insufficient balance.".format(message))
 
-    if message.content.startswith('!withdraw '):
+    if message.content.startswith('/withdraw '):
         account = message.author.id
         amount = message.content.split()[1]
         address = message.content.split()[2]
@@ -83,7 +83,7 @@ async def on_message(message):
         except ValueError:
             return await client.send_message(message.channel,"{0.author.mention}, insufficient balance.".format(message))
 
-    if message.content.startswith('!rain '):
+    if message.content.startswith('/rain '):
         account = message.author.id
         amount = float(message.content.split()[1])
 
@@ -102,7 +102,7 @@ async def on_message(message):
             return await client.send_message(message.channel,"{0.author.mention}, insufficient balance.".format(message))
 
 
-    if message.content.startswith('!donate'):
+    if message.content.startswith('/donate'):
         account = message.author.id
         address = "DRv2B21QDebJ96MEpzq6oCNkE1SY7msU2m"#DGB marketing donation account
         amount = message.content.split()[1]
@@ -129,6 +129,7 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
+
 
 
 client.run('YOURTOKEN')
